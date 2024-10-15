@@ -5,9 +5,10 @@ name: .NET
 
 on:
   push:
-    branches: [ $default-branch ]
+#https://github.com/tkopacz/fy25SimplesDotnet/settings/variables/actions/DEFAULTBRANCH
+    branches: [ $DEFAULTBRANCH ]
   pull_request:
-    branches: [ $default-branch ]
+    branches: [ $DEFAULTBRANCH ]
 
 jobs:
   build:
