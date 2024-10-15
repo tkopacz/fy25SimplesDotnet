@@ -37,9 +37,11 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: dotnet-results-${{ matrix.dotnet }}
-        path: TestResults-${{ matrix.dotnet }}
+        #path: TestResults-${{ matrix.dotnet }}
+        path: "${{ github.workspace }}/**/TestResults/**/*"
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v2.16.1
       if: always()
       with:
-        trx_files: "TestResults-${{ matrix.dotnet }}"
+        #trx_files: "TestResults-${{ matrix.dotnet }}"
+        trx_files: "${{ github.workspace }}/**/*.trx"
