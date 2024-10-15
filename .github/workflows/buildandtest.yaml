@@ -6,24 +6,33 @@ name: .NET
 # https://github.com/tkopacz/fy25SimplesDotnet/settings/variables/actions/DEFAULTBRANCH
 on:
   push:
-    branches: [ main ]
+    branches: [ $DEFAULTBRANCH ]
   pull_request:
-    branches: [ main ]
+    branches: [ $DEFAULTBRANCH ]
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        dotnet: [ '5.0.x', '6.0.x', '8.0.x' ]
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: ${{ matrix.dotnet-version }}
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
+    - name: Upload dotnet test results
+        uses: actions/upload-artifact@v4
+        with:
+            name: dotnet-results-${{ matrix.dotnet-version }}
+            path: TestResults-${{ matrix.dotnet-version }}
+            # Use always() to always run this step to publish test results when there are test failures
+            if: ${{ always() }}
