@@ -30,16 +30,16 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
+      run: dotnet test --no-build --verbosity normal --logger trx --results-directory "TestResults-${{ matrix.dotnet }}"
     - name: Upload dotnet test results
     # Use always() to always run this step to publish test results when there are test failures
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: dotnet-results-${{ matrix.dotnet-version }}
-        path: TestResults-${{ matrix.dotnet-version }}
+        name: dotnet-results-${{ matrix.dotnet }}
+        path: TestResults-${{ matrix.dotnet }}
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v2.16.1
       if: always()
       with:
-        trx_files: "TestResults-${{ matrix.dotnet-version }}"
+        trx_files: "TestResults-${{ matrix.dotnet }}"
