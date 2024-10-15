@@ -3,9 +3,9 @@
 
 name: .NET
 
+# https://github.com/tkopacz/fy25SimplesDotnet/settings/variables/actions/DEFAULTBRANCH
 on:
   push:
-#https://github.com/tkopacz/fy25SimplesDotnet/settings/variables/actions/DEFAULTBRANCH
     branches: [ $DEFAULTBRANCH ]
   pull_request:
     branches: [ $DEFAULTBRANCH ]
